@@ -1,0 +1,282 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+
+/* Text Layer — warm dark theme with gold/amber accents */
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+  --background: 30 15% 7%;
+  --foreground: 40 10% 90%;
+  --border: 35 20% 18%;
+  --card: 30 12% 10%;
+  --card-foreground: 40 10% 90%;
+  --card-border: 35 25% 22%;
+  --sidebar: 30 12% 9%;
+  --sidebar-foreground: 40 10% 90%;
+  --sidebar-border: 35 20% 18%;
+  --sidebar-primary: 35 80% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 30 15% 16%;
+  --sidebar-accent-foreground: 40 10% 90%;
+  --sidebar-ring: 35 80% 50%;
+  --popover: 30 12% 11%;
+  --popover-foreground: 40 10% 90%;
+  --popover-border: 35 20% 20%;
+  --primary: 35 80% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 30 12% 16%;
+  --secondary-foreground: 40 10% 90%;
+  --muted: 30 10% 18%;
+  --muted-foreground: 35 8% 50%;
+  --accent: 35 90% 55%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 30 12% 20%;
+  --ring: 35 80% 50%;
+  --chart-1: 35 80% 55%;
+  --chart-2: 15 75% 50%;
+  --chart-3: 340 70% 55%;
+  --chart-4: 50 80% 55%;
+  --chart-5: 150 60% 45%;
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Oswald', sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: .625rem;
+  --shadow-2xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.00);
+  --shadow-sm: 0px 1px 2px 0px hsl(30 30% 10% / 0.10);
+  --shadow: 0px 2px 4px 0px hsl(30 30% 10% / 0.12);
+  --shadow-md: 0px 4px 8px -1px hsl(30 30% 10% / 0.16);
+  --shadow-lg: 0px 8px 16px -2px hsl(30 30% 10% / 0.20);
+  --shadow-xl: 0px 12px 24px -4px hsl(30 30% 10% / 0.24);
+  --shadow-2xl: 0px 16px 32px -4px hsl(30 30% 10% / 0.28);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+  --primary-border: hsl(var(--primary));
+  --secondary-border: hsl(var(--secondary));
+  --muted-border: hsl(var(--muted));
+  --accent-border: hsl(var(--accent));
+  --destructive-border: hsl(var(--destructive));
+
+  /* Custom brand colors */
+  --gold: #c8952e;
+  --gold-light: #e8b84a;
+  --gold-dim: #8a6520;
+  --amber-border: rgba(200, 149, 46, 0.35);
+  --pink-highlight: #e87a90;
+  --bg-dark: #110e08;
+  --card-dark: #1a1610;
+  --card-border-gold: rgba(200, 149, 46, 0.25);
+}
+
+/* Force dark mode always — this is a dark-only app */
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+  --background: 30 15% 7%;
+  --foreground: 40 10% 90%;
+  --border: 35 20% 18%;
+  --card: 30 12% 10%;
+  --card-foreground: 40 10% 90%;
+  --card-border: 35 25% 22%;
+  --sidebar: 30 12% 9%;
+  --sidebar-foreground: 40 10% 90%;
+  --sidebar-border: 35 20% 18%;
+  --sidebar-primary: 35 80% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 30 15% 16%;
+  --sidebar-accent-foreground: 40 10% 90%;
+  --sidebar-ring: 35 80% 50%;
+  --popover: 30 12% 11%;
+  --popover-foreground: 40 10% 90%;
+  --popover-border: 35 20% 20%;
+  --primary: 35 80% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 30 12% 16%;
+  --secondary-foreground: 40 10% 90%;
+  --muted: 30 10% 18%;
+  --muted-foreground: 35 8% 50%;
+  --accent: 35 90% 55%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 30 12% 20%;
+  --ring: 35 80% 50%;
+  --chart-1: 35 80% 60%;
+  --chart-2: 15 75% 55%;
+  --chart-3: 340 65% 60%;
+  --chart-4: 50 75% 60%;
+  --chart-5: 150 55% 55%;
+  --shadow-2xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(0 0% 0% / 0.00);
+  --shadow-sm: 0px 1px 2px 0px hsl(0 0% 0% / 0.10);
+  --shadow: 0px 2px 4px 0px hsl(0 0% 0% / 0.12);
+  --shadow-md: 0px 4px 8px -1px hsl(0 0% 0% / 0.16);
+  --shadow-lg: 0px 8px 16px -2px hsl(0 0% 0% / 0.20);
+  --shadow-xl: 0px 12px 24px -4px hsl(0 0% 0% / 0.24);
+  --shadow-2xl: 0px 16px 32px -4px hsl(0 0% 0% / 0.28);
+
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+  --primary-border: hsl(var(--primary));
+  --secondary-border: hsl(var(--secondary));
+  --muted-border: hsl(var(--muted));
+  --accent-border: hsl(var(--accent));
+  --destructive-border: hsl(var(--destructive));
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--bg-dark);
+    color: hsl(var(--foreground));
+  }
+}
+
+/* Gold horizontal rule / divider */
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 20%, var(--gold) 80%, transparent 100%);
+  opacity: 0.5;
+}
+
+/* Gold border card styling */
+.card-gold {
+  border: 1px solid var(--card-border-gold);
+  background: var(--card-dark);
+  border-radius: 8px;
+}
+
+/* Progress bar animation */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(200, 149, 46, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(200, 149, 46, 0.6); }
+}
+
+.progress-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* OR divider */
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+  font-size: 14px;
+}
+.or-divider::before,
+.or-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 149, 46, 0.3), transparent);
+}
+
+/* Upload dropzone gold dashed border */
+.dropzone-gold {
+  border: 2px dashed var(--amber-border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.dropzone-gold:hover {
+  border-color: var(--gold);
+  background: rgba(200, 149, 46, 0.04);
+}
+
+/* Create button */
+.btn-create {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  color: #110e08;
+  font-weight: 600;
+  border: none;
+  padding: 8px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+.btn-create:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 16px rgba(200, 149, 46, 0.4);
+}
+.btn-create:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: none;
+  box-shadow: none;
+}
+
+/* Input with gold focus */
+.input-gold {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 149, 46, 0.2);
+  border-radius: 6px;
+  color: hsl(40, 10%, 90%);
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.input-gold:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(200, 149, 46, 0.15);
+}
+.input-gold::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Preview card mini */
+.preview-card {
+  background: rgba(30, 26, 20, 0.9);
+  border: 1px solid rgba(200, 149, 46, 0.15);
+  border-radius: 8px;
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tracking progress bar in preview */
+.tracking-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  margin-top: 12px;
+}
+.tracking-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #c0392b 0%, var(--gold) 60%);
+  width: 55%;
+}
+
+/* Arrow animation */
+@keyframes arrow-pulse {
+  0%, 100% { opacity: 0.4; transform: translateX(0); }
+  50% { opacity: 0.8; transform: translateX(4px); }
+}
+.arrow-animate {
+  animation: arrow-pulse 2s ease-in-out infinite;
+}
