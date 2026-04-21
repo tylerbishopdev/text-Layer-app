@@ -1,6 +1,6 @@
 ---
 name: karaoke-publish
-description: End-to-end karaoke workflow — take a local video or audio file (or an open.video URL), generate a synced karaoke video via the textlayer.app MCP, then upload the rendered MP4 to open.video via the open.video MCP with an SEO-optimized title, description, and tags. Trigger on requests like "make a karaoke video and post it", "turn this song into karaoke and upload to open.video", "publish a karaoke version of <file>", or any combination of textlayer + open.video in one workflow.
+description: End-to-end karaoke workflow — take a local video or audio file (or an open.video URL), generate a synced karaoke video via the textlayer.app MCP, then upload the rendered MP4 to open.video via the open.video MCP with an SEO-optimized title, description, and tags. Trigger on requests like "make a karaoke video and post it", "turn this song into karaoke and upload to open.video", "publish a karaoke version of this file", or any combination of textlayer + open.video in one workflow.
 ---
 
 # Karaoke → open.video publishing workflow
@@ -14,10 +14,10 @@ You are the orchestrator. Do not ask the user to run anything manually that a to
 
 ## Before you start
 
-1. Confirm both MCP servers are reachable. Call a cheap tool on each — e.g. `textlayer`'s `health_check`, and whichever list/me-type tool the open.video MCP exposes. If either is missing, stop and tell the user how to add it:
+1. Confirm both MCP servers are reachable. Call a cheap tool on each — e.g. the textlayer MCP's `health_check`, and whichever list/me-type tool the open.video MCP exposes. If either is missing, stop and tell the user how to add it:
    - textlayer: `claude mcp add karaoke -- npx tsx mcp-server/index.ts` (run from this repo, with the Express app running on port 5000, or set `KARAOKE_API_BASE` to a remote deployment).
    - open.video: whatever command the user installed it with. If it's simply not registered, say so.
-2. **Discover the open.video MCP's tool names at runtime** — do not assume. List the tools it exposes (e.g. by asking "what tools does the open.video MCP offer?" or by trying a list/help tool) and pick the ones that correspond to: upload a video file, set/update metadata, and (optionally) publish/make public. Tool names vary.
+2. **Discover the open.video MCP's tool names at runtime** — do not assume. List the tools it exposes and pick the ones that correspond to: upload a video file, set/update metadata, and (optionally) publish/make public. Tool names vary.
 3. Confirm the exact tool names to yourself before calling them. If ambiguous, ask the user.
 
 ## Input handling
@@ -28,7 +28,7 @@ You will be given one of:
 - **A local video file** (`.mp4`, `.mov`, `.mkv`, `.webm`, etc.). Extract the audio first:
 
   ```bash
-  ffmpeg -y -i "<video>" -vn -acodec libmp3lame -q:a 2 "<tmp>/<basename>.mp3"
+  ffmpeg -y -i "{VIDEO_PATH}" -vn -acodec libmp3lame -q:a 2 "{TMP_DIR}/{BASENAME}.mp3"
   ```
 
   Use the resulting `.mp3` for the textlayer upload. Keep the original video path — you may want its filename for metadata hints.
@@ -42,14 +42,14 @@ Resolve every path to an absolute path before passing it to MCP tools.
 Use the textlayer MCP tools:
 
 - URL input → `create_job_from_url({ url })`
-- Local audio input → `upload_audio_file({ path: "<absolute path>" })`
+- Local audio input → `upload_audio_file({ path: "{ABSOLUTE_AUDIO_PATH}" })`
 
 Both return a `jobId`. Then:
 
-- `wait_for_job({ jobId, timeoutSeconds: 900 })` — block until `complete` or `error`. Pick a timeout generous enough for long songs; the default 600s is fine for <5 min songs.
+- `wait_for_job({ jobId, timeoutSeconds: 900 })` — block until `complete` or `error`. Pick a timeout generous enough for long songs; the default 600s is fine for sub-5-minute songs.
 - If status is `error`, surface the `statusMessage`/`error` fields to the user and stop. Do not retry blindly.
-- On `complete`, call `get_job({ jobId, includeTranscription: true })` so you have the lyrics text and word timings available for metadata (step 3).
-- `download_video({ jobId, outputPath: "<absolute path to a .mp4>", overwrite: true })` to pull the rendered MP4 to disk. Pick an output path under `/tmp/` or the user's working directory — do not clutter the repo.
+- On `complete`, call `get_job({ jobId, includeTranscription: true })` so you have the lyrics text and word timings available for metadata (step 2).
+- `download_video({ jobId, outputPath: "{ABSOLUTE_MP4_PATH}", overwrite: true })` to pull the rendered MP4 to disk. Pick an output path under `/tmp/` or the user's working directory — do not clutter the repo.
 
 ## Step 2 — Derive optimized metadata
 
@@ -61,11 +61,11 @@ Before uploading, build:
   - Include the artist if obvious from the filename (e.g. `Artist - Song.mp3` → `Artist – Song (Karaoke)`).
   - No clickbait, no ALL CAPS, no emoji unless the user asked.
 - **Description** (2–4 short paragraphs):
-  - Sentence 1: "Karaoke version of <song> by <artist>, with synced word-level lyrics."
+  - Sentence 1: "Karaoke version of {SONG} by {ARTIST}, with synced word-level lyrics."
   - Sentence 2: how it was made ("Auto-transcribed by ElevenLabs Scribe v2 and rendered with textlayer.app.").
-  - Paragraph 2 (optional): the first few lines of the lyrics from `transcription.text`, so the description is searchable. Respect any copyright concerns — include a short excerpt, not the full lyric.
+  - Paragraph 2 (optional): the first few lines of the lyrics from `transcription.text`, so the description is searchable. Respect copyright — include a short excerpt, not the full lyric.
   - Paragraph 3 (optional): credits / source URL if the user supplied one.
-- **Tags** (5–12 items, lowercase, no `#`):
+- **Tags** (5–12 items, lowercase, no hashtag prefix):
   - Always include: `karaoke`, `karaoke-version`, `lyrics`, `sing-along`.
   - Plus artist, song title, genre (if known), language (from `transcription.language_code`), year (if known).
 - **Language**: prefer `transcription.language_code` if the open.video MCP accepts it.
