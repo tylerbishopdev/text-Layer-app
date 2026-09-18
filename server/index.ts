@@ -62,6 +62,11 @@ app.use((req, res, next) => {
 (async () => {
   await registerRoutes(httpServer, app);
 
+  // Rocket Sloth ads.txt — redirect demand partners to the managed file
+  app.get("/ads.txt", (_req: Request, res: Response) => {
+    res.redirect(301, "https://srv.adstxtmanager.com/19390/textlayer.app");
+  });
+
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";

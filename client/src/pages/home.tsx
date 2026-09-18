@@ -197,6 +197,11 @@ export default function Home() {
       {/* Gold divider */}
       <div className="gold-line mx-auto mb-8" style={{ width: "80%", maxWidth: 700 }} />
 
+      {/* Rocket Sloth ad unit — above main content */}
+      <div className="max-w-2xl mx-auto w-full px-6 mb-8">
+        <div data-rs-ad data-rs-width="728" data-rs-height="90"></div>
+      </div>
+
       {/* Main input area */}
       <div className="max-w-2xl mx-auto w-full px-6 pb-8 space-y-6">
         {/* Input card */}
@@ -391,6 +396,11 @@ export default function Home() {
         )}
 
         <PerplexityAttribution />
+      </div>
+
+      {/* Rocket Sloth ad unit — below content, above footer */}
+      <div className="max-w-2xl mx-auto w-full px-6 pb-10">
+        <div data-rs-ad></div>
       </div>
     </div>
   );
